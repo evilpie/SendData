@@ -16,7 +16,7 @@
                     }
                 };
                  
-                xhr.open('POST', 'upload.php', true);
+                xhr.open('POST', 'upload.php');
 
                 if ('FormData' in window) {
                     fd = new FormData();
@@ -41,22 +41,29 @@
                 var dropbox = document.getElementById('dropbox');
                 
                 dropbox.ondragenter = function (event) {
+                    var types = event.dataTransfer.types;
                     event.stopPropagation();
-                                                    
-                    if (event.dataTransfer.types.contains('Files')) {
+                     
+                                    
+                    if ((types.contains && types.contains('Files')) ||
+                        (types.indexOf && types.indexOf('File'))) {
+                                                                                                            
                         event.preventDefault();
-                        dropbox.style.borderWidth = '2px';
-                    }
+                        dropbox.style.borderWidth = '2px';                
+                    }                                                                    
                 };
                 
                 dropbox.ondragover = function (event) {
+                    var types = event.dataTransfer.types;                    
                     event.stopPropagation();                                    
-                    if (event.dataTransfer.types.contains('Files')) {
-                        event.preventDefault();
+                    
+                    if ((types.contains && types.contains('Files')) ||
+                        (types.indexOf && types.indexOf('File'))) {                                                    
+                        event.preventDefault();                
                     }
                 };
                 
-                dropbox.ondrop = function (event)  {
+                dropbox.ondrop = function (event)  {                    
                     event.stopPropagation(); 
                     event.preventDefault();                    
                     
