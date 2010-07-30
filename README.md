@@ -40,7 +40,7 @@ Methods
 
 SendData#append(name, value)
 
-name: the name of the field, its basiclly the same as for example the name of an input field
+name: the name of the field, its basically the same as for example the name of an input field
 value: can be anything, but File Objects get special treatment
 
 SendData#send(XMLHttpRequestInstance)
@@ -62,7 +62,7 @@ SendData.fromForm(form)
 
 form: a html form element
 
-This function is smiliar to Mozillas Form#getFormData, and will return a new SendData instance.
+This function is similiar to Mozillas Form#getFormData, and will return a new SendData instance.
 
 
 Exclaimer
