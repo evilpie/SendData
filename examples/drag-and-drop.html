@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Drag And Drop File Upload</title>
+        <script src="../SendData.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        
+            function upload (event) {
+                var files = event.dataTransfer.files, xhr, fd, sd;
+                
+                xhr = new XMLHttpRequest();
+                 
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert('uploaded ' + xhr.responseText + ' bytes');
+                    }
+                };
+                 
+                xhr.open('POST', 'upload.php', true);
+
+                if ('FormData' in window) {
+                    fd = new FormData();
+                    fd.append('file', files[0]);
+
+                    xhr.send(fd);
+                }
+                else {
+                    sd = new SendData();
+                    sd.append('file', files[0]);
+                    
+                    sd.onerror = function (error) {
+                        alert('Error: ' + error);
+                    }
+                    sd.send(xhr)
+                }
+
+                
+            }
+        
+            window.onload = function () {
+                var dropbox = document.getElementById('dropbox');
+                
+                dropbox.ondragenter = function (event) {
+                    event.stopPropagation();
+                                                    
+                    if (event.dataTransfer.types.contains('Files')) {
+                        event.preventDefault();
+                        dropbox.style.borderWidth = '2px';
+                    }
+                };
+                
+                dropbox.ondragover = function (event) {
+                    event.stopPropagation();                                    
+                    if (event.dataTransfer.types.contains('Files')) {
+                        event.preventDefault();
+                    }
+                };
+                
+                dropbox.ondrop = function (event)  {
+                    event.stopPropagation(); 
+                    event.preventDefault();                    
+                    
+                    upload(event);
+                };
+                
+                dropbox.ondragleave = function (event) {
+                    event.stopPropagation(); 
+                    event.preventDefault(); 
+                    dropbox.style.borderWidth = '1px';
+                };                
+            };
+        </script>
+        <style type="text/css">
+            * {
+                font-family: 'Trebuchet MS', 'Liberation Sans', 'DejaVu Sans', sans-serif;
+            }
+            
+            #dropbox {
+                height: 200px;
+                width: 200px;
+                
+                margin: auto;
+                
+                border: 1px solid black;
+                
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dropbox">Drop Here</div>
+    </body>
+</html>

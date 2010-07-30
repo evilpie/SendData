@@ -26,8 +26,8 @@ var SendData = (function () {
 
             if (fieldsCount == appendCount) {
 
-                request += CRLF + boundary + CRLF;                
-                
+                request += CRLF + boundary + CRLF;
+
                 XMLHttpRequestInstance.setRequestHeader('Content-type', 'multipart/form-data; boundary="' + boundaryString + '"');
                 XMLHttpRequestInstance.setRequestHeader('Connection', 'close');
                 XMLHttpRequestInstance.setRequestHeader('Content-Length', request.length);
@@ -37,7 +37,7 @@ var SendData = (function () {
 
 
         for (var i = 0; i < fieldsCount; i++) {
-            data = this.data[i];            
+            data = this.data[i];
             objectType = Object.prototype.toString.call(data.value);
 
             if (objectType == '[object File]') {
@@ -82,14 +82,14 @@ var SendData = (function () {
 
     SendData.fromForm = function (form) {
         var sd = new SendData(), element, b;
-        
+
         for (var i = 0; i < form.elements.length; i++) {
             element = form.elements[i];
-            
+
             if (!element.name) {
-                continue; 
+                continue;
             }
-            
+
             if (element.type == 'text' || element.type == 'password' ||
                 element.type == 'input' || element.type == 'submit' ||
                 element.nodeName.toLowerCase() == 'textarea') {
@@ -101,8 +101,7 @@ var SendData = (function () {
                 }
             }
             else if (element.nodeName.toLowerCase() == 'select') {
-                for (b = 0; b < element.options.length; b++) {                    
-                    
+                for (b = 0; b < element.options.length; b++) {
                     if (element.options[b].selected) {
                         sd.append(element.name, element.options[b].value);
                     }
@@ -119,7 +118,7 @@ var SendData = (function () {
                 }
             }
         }
-        
+
         return sd;
     };
 
