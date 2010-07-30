@@ -11,9 +11,9 @@ var SendData = (function () {
     };
 
     SendData.prototype.send = function (XMLHttpRequestInstance) {
-        var boundary, boundaryString, request, data, objectType, fieldCount, appendCount, temp, reader;
+        var boundary, boundaryString, request, data, objectType, fieldsCount, appendCount, temp, reader;
 
-        boundaryString = 'SendDataJs' + (+new Date);
+        boundaryString = 'SendDataJs' + (+new Date());
         boundary = '--' + boundaryString;
         request =  '';
         fieldsCount = this.data.length;
@@ -38,7 +38,7 @@ var SendData = (function () {
 
         for (var i = 0; i < fieldsCount; i++) {
             data = this.data[i];            
-            objectType = Object.prototype.toString.call(data['value']);
+            objectType = Object.prototype.toString.call(data.value);
 
             if (objectType == '[object File]') {
                 reader = new FileReader();
@@ -48,15 +48,15 @@ var SendData = (function () {
                         if (typeof that.onerror == 'function') {
                             that.onerror('file read error');
                         }
-                    }
+                    };
                 })(this);
 
                 reader.onload = (function (reader, data) {
                     return function () {
                         temp  = boundary + CRLF;
-                        temp += 'Content-Disposition: form-data; name="' + data['name'];
-                        temp += '"; filename="' + data['value'].name  + '"' + CRLF;
-                        temp += 'Content-Type: ' + data['value'].type + CRLF;
+                        temp += 'Content-Disposition: form-data; name="' + data.name;
+                        temp += '"; filename="' + data.value.name  + '"' + CRLF;
+                        temp += 'Content-Type: ' + data.value.type + CRLF;
                         temp += CRLF;
 
                         temp += reader.result;
@@ -65,14 +65,14 @@ var SendData = (function () {
                     };
                 })(reader, data);
 
-                reader.readAsBinaryString(data['value']);
+                reader.readAsBinaryString(data.value);
             }
             else {
                 temp = boundary + CRLF;
-                temp += 'Content-Disposition: form-data; name="' + data['name'] + '"' + CRLF;
+                temp += 'Content-Disposition: form-data; name="' + data.name + '"' + CRLF;
                 temp += CRLF;
 
-                temp += data['value'];
+                temp += data.value;
                 temp += CRLF;
 
                 addField(temp);
@@ -81,7 +81,7 @@ var SendData = (function () {
     };
 
     SendData.fromForm = function (form) {
-        var sd = new SendData(), element;
+        var sd = new SendData(), element, b;
         
         for (var i = 0; i < form.elements.length; i++) {
             element = form.elements[i];
@@ -101,7 +101,7 @@ var SendData = (function () {
                 }
             }
             else if (element.nodeName.toLowerCase() == 'select') {
-                for (var b = 0; b < element.options.length; b++) {                    
+                for (b = 0; b < element.options.length; b++) {                    
                     
                     if (element.options[b].selected) {
                         sd.append(element.name, element.options[b].value);
@@ -110,7 +110,7 @@ var SendData = (function () {
             }
             else if (element.type == 'file') {
                 if (element.files) {
-                    for (var b = 0; b < element.files.length; b++) {
+                    for (b = 0; b < element.files.length; b++) {
                         sd.append(element.name, element.files[b]);
                     }
                 }
