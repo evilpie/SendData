@@ -32,9 +32,7 @@
                         alert('Error: ' + error);
                     }
                     sd.send(xhr)
-                }
-
-                
+                }                
             }
         
             window.onload = function () {
@@ -43,7 +41,6 @@
                 dropbox.ondragenter = function (event) {
                     var types = event.dataTransfer.types;
                     event.stopPropagation();
-                     
                                     
                     if ((types.contains && types.contains('Files')) ||
                         (types.indexOf && types.indexOf('File'))) {
@@ -78,7 +75,7 @@
             };
         </script>
         <style type="text/css">
-            * {
+            body {
                 font-family: 'Trebuchet MS', 'Liberation Sans', 'DejaVu Sans', sans-serif;
             }
             

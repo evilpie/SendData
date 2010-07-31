@@ -2,6 +2,7 @@ var SendData = (function () {
     var SendData;
     var CRLF = '\n';
 
+    
     SendData = function () {
         this.data = [];
     };
@@ -28,10 +29,11 @@ var SendData = (function () {
 
                 request += CRLF + boundary + CRLF;
 
-                XMLHttpRequestInstance.setRequestHeader('Content-type', 'multipart/form-data; boundary="' + boundaryString + '"');
+                XMLHttpRequestInstance.setRequestHeader('Content-Type', 'multipart/form-data; boundary="' + boundaryString + '"');
                 XMLHttpRequestInstance.setRequestHeader('Connection', 'close');
                 XMLHttpRequestInstance.setRequestHeader('Content-Length', request.length);
-                XMLHttpRequestInstance.send(request);
+
+                XMLHttpRequestInstance.sendAsBinary(request);
             }
         }
 
@@ -57,10 +59,12 @@ var SendData = (function () {
                         temp += 'Content-Disposition: form-data; name="' + data.name;
                         temp += '"; filename="' + data.value.name  + '"' + CRLF;
                         temp += 'Content-Type: ' + data.value.type + CRLF;
+                        temp += 'Content-Transfer-Encoding: binary' + CRLF;
                         temp += CRLF;
 
                         temp += reader.result;
-
+                        temp += CRLF;
+                        
                         addField(temp);
                     };
                 })(reader, data);
