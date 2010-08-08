@@ -1,6 +1,6 @@
 var SendData = (function () {
     var SendData;
-    var CRLF = '\n';
+    var LF = '\n';
 
     
     SendData = function () {
@@ -27,7 +27,7 @@ var SendData = (function () {
 
             if (fieldsCount == appendCount) {
 
-                request += CRLF + boundary + CRLF;
+                request += boundary + LF;
 
                 XMLHttpRequestInstance.setRequestHeader('Content-Type', 'multipart/form-data; boundary="' + boundaryString + '"');
                 XMLHttpRequestInstance.setRequestHeader('Connection', 'close');
@@ -55,15 +55,15 @@ var SendData = (function () {
 
                 reader.onload = (function (reader, data) {
                     return function () {
-                        temp  = boundary + CRLF;
+                        temp  = boundary + LF;
                         temp += 'Content-Disposition: form-data; name="' + data.name;
-                        temp += '"; filename="' + data.value.name  + '"' + CRLF;
-                        temp += 'Content-Type: ' + data.value.type + CRLF;
-                        temp += 'Content-Transfer-Encoding: binary' + CRLF;
-                        temp += CRLF;
+                        temp += '"; filename="' + data.value.name  + '"' + LF;
+                        temp += 'Content-Type: ' + data.value.type + LF;
+                        temp += 'Content-Transfer-Encoding: binary' + LF;
+                        temp += LF;
 
                         temp += reader.result;
-                        temp += CRLF;
+                        temp += LF;
                         
                         addField(temp);
                     };
@@ -72,12 +72,12 @@ var SendData = (function () {
                 reader.readAsBinaryString(data.value);
             }
             else {
-                temp = boundary + CRLF;
-                temp += 'Content-Disposition: form-data; name="' + data.name + '"' + CRLF;
-                temp += CRLF;
+                temp = boundary + LF;
+                temp += 'Content-Disposition: form-data; name="' + data.name + '"' + LF;
+                temp += LF;
 
                 temp += data.value;
-                temp += CRLF;
+                temp += LF;
 
                 addField(temp);
             }
